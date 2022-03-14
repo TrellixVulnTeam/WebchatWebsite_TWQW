@@ -1,0 +1,91 @@
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #e73c7e, #ee7752);
+	background-size: 400% 400%;
+    
+}
+
+.login-box   {
+    color: #9c9c9c;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 305px;
+    height: 380px;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+::placeholder   {
+    color: #bbbbbb;
+}
+
+h1[type=title]  {
+    font-size: x-large;
+    color: #c4c4c4;
+    font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: 100;
+}
+
+input[type=username] {
+    background-color: #b34c4c;
+    border: 1px solid #cecece33;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+    height: -10px;
+    width: 75%;
+    padding: 6px 20px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    color: #d6d6d6;
+    font-family: "Tahoma", sans-serif;
+    font-size: medium;
+  }
+
+  input[type=password] {
+    background-color: #b34c4c;
+    border: 1px solid #cecece33;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+    height: -10px;
+    width: 75%;
+    padding: 6px 20px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    color: #9c9c9c;
+    font-family: "Tahoma", sans-serif;
+    font-size: medium;
+  }
+
+  input:focus {
+  outline: none;
+  }
+  button[type=submit]    {
+    margin: 8px;
+    background-color: #00000000;
+    border: 1px solid #ee7752;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    color: #ee7752;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    height: 30px;
+    line-height: 15px;
+    list-style: none;
+    padding: 0px 33px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
