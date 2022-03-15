@@ -1,5 +1,7 @@
 import React from 'react';
-import style from "./core/styles/login.css"
+import "../core/styles/login.css"
+import { BrowserRouter, Routes, Route, link, Navigate, Link } from 'react-router-dom';
+
 
 class App extends React.Component {
   constructor(props)  {                                                     // Init our constructor and variables.
@@ -10,7 +12,8 @@ class App extends React.Component {
       password: ''
     };
     this.Authenticate = this.Authenticate.bind(this);                       // So we are able to call this from render()'s html.
-    this.Register = this.Register.bind(this);  
+    this.Register = this.Register.bind(this); 
+    this.Periodic = this.Periodic.bind(this); 
     }
 
     Register(event) {                                                       // Todo: add a register function to the API
@@ -35,16 +38,22 @@ class App extends React.Component {
       }
       else
         this.setState({APIResponce: 'Please enter a username/password'});    // If failed return an error.
-    }
+  }
 
-  componentWillMount()  {}                                                   // This is periodicly run.
+  Periodic()  {                                                    // This is periodicly run.
+      
+  }
   
   render() {
-    
+    if(this.state.APIResponce == "true")  {
+      return <Navigate to='/hub/home' />
+    }
+
     return (
-      <div className="login-box">
+      <>
+      <div class="login-box">
       <br/> <h1 type="title">Login</h1> <br/>
-      <form acceptCharset="UTF-8">
+      <form acceptCharset="UTF-8" onSubmit={this.Periodic}>
         <img src="/images/user.png" width={100} height={100} />
         <input
           type="username"
@@ -68,9 +77,9 @@ class App extends React.Component {
           <button id="button1" onClick={this.Authenticate}>Login</button>
           <button id="button1" onClick={this.Register}>Register</button>
         </div>
-        <p>{this.state.APIResponce}</p>
         </form>
       </div>
+      </>
     );
   }
 }

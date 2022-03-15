@@ -1,5 +1,5 @@
 import * as React from "react";
-import style from '../core/styles/login.css'
+import "../core/styles/home.css"
 class Home extends React.Component {
     constructor(props)  {
       super(props);
@@ -9,11 +9,9 @@ class Home extends React.Component {
 
     render()    {
     return (
-        <>
-        <div>
-        <h1>Welcome to hub/home!</h1>
-        </div>
-        </>
+      <>
+      
+      </>
     )};
 };
 export default Home;

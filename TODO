@@ -3,3 +3,5 @@ List of things to do:
 * add data encryption to database
 * rate limit POST requests
 * add registration
+* add landing page to hub/home
+* add cookies for login data
