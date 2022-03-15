@@ -7,8 +7,9 @@
 ## Building
   It is very simple to build this project.
   ```
-  npm i
-  npm start
+  npm install sqlite3
+  npm install express
+  npm install cors
   ```
 ## Usage
-  To use this project change the mySQL database config file(api/routes/api/v1.js #5).
+  This project is ready to go once you ```npm start```
