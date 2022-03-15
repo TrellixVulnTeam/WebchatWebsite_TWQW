@@ -42,7 +42,6 @@ class App extends React.Component {
   render() {
     
     return (
-      <>
       <div className="login-box">
       <br/> <h1 type="title">Login</h1> <br/>
       <form acceptCharset="UTF-8">
@@ -72,7 +71,6 @@ class App extends React.Component {
         <p>{this.state.APIResponce}</p>
         </form>
       </div>
-      </>
     );
   }
 }
