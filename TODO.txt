@@ -1,0 +1,7 @@
+List of things to do:
+
+* add data encryption to database
+* rate limit POST requests
+* set default page to localhost:8070/login
+* add registration
+* redirect login page to localhost:8070/hub

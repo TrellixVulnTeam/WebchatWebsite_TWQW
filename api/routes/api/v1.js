@@ -23,8 +23,7 @@ db.serialize(() => {
                 res.json({success: 'false'});
             }
 
-            console.log("ID: " + row._ID + " | Username: " + row._username + " | Password: " + row._password);
-            console.log("Method: POST | Username: " + req.body.username + " | Password: " + row._password);
+            console.log("| ID: " + row._ID + " | Username: " + row._username + " | Password: " + row._password);
 
             if(row._username == req.body.username && row._password == req.body.password)
                 res.json({success: 'true'});

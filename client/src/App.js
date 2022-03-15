@@ -45,7 +45,7 @@ class App extends React.Component {
       <>
       <div className="login-box">
       <br/> <h1 type="title">Login</h1> <br/>
-      <form acceptCharset="UTF-8" >
+      <form acceptCharset="UTF-8">
         <img src="images/user.png" width={100} height={100} />
         <input
           type="username"
