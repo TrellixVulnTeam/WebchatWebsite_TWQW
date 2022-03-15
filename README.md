@@ -10,7 +10,6 @@
   npm install sqlite3
   npm install express
   npm install cors
-  npm start
   ```
 ## Usage
   This project is ready to go once you ```npm start```
