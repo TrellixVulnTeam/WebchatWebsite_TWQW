@@ -1,8 +1,24 @@
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #e73c7e, #ee7752);
 	background-size: 400% 400%;
-    
+	/* animate the gradient
+  animation: gradient 8s ease infinite;
+	height: 100vh;
+  */
 }
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 
 .login-box   {
     color: #9c9c9c;
@@ -63,7 +79,7 @@ input[type=username] {
   input:focus {
   outline: none;
   }
-  button[type=submit]    {
+  button[id=button1]    {
     margin: 8px;
     background-color: #00000000;
     border: 1px solid #ee7752;
