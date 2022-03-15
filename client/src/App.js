@@ -6,7 +6,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       APIResponce: '',
-      alias: '',
+      username: '',
       password: ''
     };
     this.Authenticate = this.Authenticate.bind(this);                     // So we are able to call this from render()'s html.
@@ -15,10 +15,10 @@ class App extends React.Component {
   Authenticate(event)  {
     event.preventDefault();                                               // So we don't refresh page on function call.
     let dataPOST =  {
-      username: this.state.alias,
+      username: this.state.username,
       password: this.state.password
     };
-    if(this.state.alias != '' && this.state.password != 0)  {
+    if(this.state.username != '' && this.state.password != 0)  {
       fetch('http://localhost:3000/api/v1/login', {
         method: 'POST',
         body: JSON.stringify(dataPOST),
@@ -51,9 +51,9 @@ class App extends React.Component {
           type="username"
           placeholder="Username"
           maxLength="24"
-          name ="alias"
-          value={this.state.alias}
-          onChange={(e) => this.handleChange({ alias: e.target.value })}
+          name ="username"
+          value={this.state.username}
+          onChange={(e) => this.handleChange({ username: e.target.value })}
           
           />
         <input
@@ -76,48 +76,5 @@ class App extends React.Component {
     );
   }
 }
+
 export default App;
-/*
-
-var mysql      = require('mysql');
-
-var DataBaseConnection = mysql.createConnection({
-    host: 'localhost',                              // For local testing use 'localhost'
-    user: 'root',                                   // For local testing use 'root'
-    password: '',
-    database: 'webchatdb'
-});
-
-DataBaseConnection.connect(function(exeption) {
-    if (exeption) 
-        return console.error('error: ' + exeption.message);
-    
-    console.log('Connected to the MySQL server.');
-
-
-    DataBaseConnection.query("SELECT * FROM user", function (err, users, fields) {
-        if (err) {
-            console.error('error: ' + exeption.message + '\n Closing Database connection...');
-            DataBaseConnection.end();
-            return null;
-        }  //Report the error and close the connection
-
-        //Setup values to insert into dbTable
-        //let query = 'ALTER TABLE user AUTO_INCREMENT = 0;'
-        let query = `INSERT INTO user (alias, password, userGroup) VALUES ?;`;
-        let values = [
-            ['notSam25', 'pass', 'user']
-        ];
-
-        DataBaseConnection.query(query, [values], (err) => {  // Insert the array into the dbTable
-            if (err) 
-                throw err;
-            
-            console.log("All values inserted into database 'user'");
-        });
-
-        console.log(users);
-      });
-});
-
-*/
