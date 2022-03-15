@@ -7,9 +7,10 @@
 ## Building
   It is very simple to build this project.
   ```
-  npm install sqlite3
-  npm install express
-  npm install cors
+  npm install sqlite3          -API
+  npm install cors             -API
+  npm install express          -API/CLIENT
+  npm install react-router-dom -CLIENT
   ```
 ## Usage
   This project is ready to go once you ```npm start```
