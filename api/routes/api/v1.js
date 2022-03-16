@@ -21,45 +21,48 @@ app.use(bodyParser.json());
 app.post('/login', (req, res) => {
 
     db.serialize(() => {
-        db.each(`SELECT ID as _ID, username as _username, password as _password FROM user`, (err, row) => {
-
+        db.all(`SELECT ID as _ID, username as _username, password as _password FROM user`, [], (err, rows) => {
+            returnValue = false;
             if (err) {
                 console.log(err.message);
-                res.json({ success: 'false' });
+                returnValue = false;
             }
             else {
-                if (row._username == req.body.username && row._password == req.body.password)
-                    res.json({ success: 'true' });
-                else {
-                    res.json({ success: 'false' });
-                }
+                rows.forEach((row) => {
+                    if (row._username == req.body.username && row._password == req.body.password)
+                        returnValue = true;
+                });
             }
+            res.json({ success: returnValue ? 'true' : 'false' });
         });
     });
 });
 
-
-
 app.post('/register', (req, res) => {
 
     db.serialize(() => {
-        db.each(`SELECT ID as _ID, username as _username, password as _password FROM user`, (err, row) => {
+        db.all(`SELECT ID as _ID, username as _username, password as _password FROM user`, [], (err, rows) => {
+            returnValue = true;
             if (err) {
                 console.log(err.message);
-                res.json({ success: 'false' });
+                returnValue = false;
             }
-                if (row._username == req.body.username) 
-                    res.json({ success: 'false' });
-                else
+            else {
+                rows.forEach((row) => {
+                    if (row._username == req.body.username)
+                        returnValue = false;
+                });
+                if (returnValue) {
                     db.each('INSERT INTO user(username, password, regDate) VALUES (?, ?, ?);', [req.body.username, req.body.password, currentDate], (err, row) => {
                         if (err) {
                             console.log(err);
-                            res.json({ success: 'false' });
+                            returnValue = false;
                         }
-
-                        res.json({ success: 'true' });
+                        returnValue = true;
                     });
-                
+                }
+            }
+            res.json({ success: returnValue ? 'true' : 'false' });
         });
     });
 });

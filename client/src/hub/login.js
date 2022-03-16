@@ -22,7 +22,7 @@ class App extends React.Component {
         password: this.state.password
       };
       if(this.state.username && this.state.password)  {
-        const response = await fetch('http://localhost:3000/api/v1/register', {
+        const response = await fetch('http://localhost:3000/api/v1/beta', {
           method: 'POST',
           body: JSON.stringify(dataPOST),
           headers: { 'Content-Type': 'application/json' }

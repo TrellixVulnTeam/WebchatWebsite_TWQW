@@ -2,7 +2,6 @@ List of things to do:
 
 * add data encryption to database
 * rate limit POST requests
-* add registration
 * add landing page to hub/home
 * add cookies for login data
-* logging in/registring with 1+ tables entries causes JSON return error(most likley because it doesnt stop iterating the row).
+* check for invalid chars in login/registration
