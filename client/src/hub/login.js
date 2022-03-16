@@ -7,17 +7,32 @@ class App extends React.Component {
   constructor(props)  {                                                     // Init our constructor and variables.
     super(props);
     this.state = {
-      APIResponce: '',
+      apiResponce: '',
       username: '',
       password: ''
     };
     this.Authenticate = this.Authenticate.bind(this);                       // So we are able to call this from render()'s html.
     this.Register = this.Register.bind(this); 
-    this.Periodic = this.Periodic.bind(this); 
     }
 
-    Register(event) {                                                       // Todo: add a register function to the API
+    async Register(event) {                                                       // Todo: add a register function to the API
       event.preventDefault();
+      let dataPOST =  {
+        username: this.state.username,
+        password: this.state.password
+      };
+      if(this.state.username && this.state.password)  {
+        const response = await fetch('http://localhost:3000/api/v1/register', {
+          method: 'POST',
+          body: JSON.stringify(dataPOST),
+          headers: { 'Content-Type': 'application/json' }
+        })
+        .then((res) => res.json())                                           // Parse responce as JSON.
+        .then((data) => this.setState({apiResponce: data.success}))          // Set apiResponce to data.TYPE <-- responce of the api/v1/login function.
+        .catch((error) => this.setState({apiResponce: 'Failed to recive responce.'}));  // If failed return an error.
+      }
+      else
+        this.setState({apiResponce: 'Please enter a username/password'});    // If failed return an error.
     }
 
     async Authenticate(event)  {
@@ -33,27 +48,24 @@ class App extends React.Component {
           headers: { 'Content-Type': 'application/json' }
         })
         .then((res) => res.json())                                           // Parse responce as JSON.
-        .then((data) => this.setState({APIResponce: data.success}))          // Set APIResponce to data.TYPE <-- responce of the api/v1/login function.
-        .catch((error) => this.setState({APIResponce: 'Failed to recive responce.'}));  // If failed return an error.
+        .then((data) => this.setState({apiResponce: data.success}))          // Set apiResponce to data.TYPE <-- responce of the api/v1/login function.
+        .catch((error) => this.setState({apiResponce: 'Failed to recive responce.'}));  // If failed return an error.
       }
       else
-        this.setState({APIResponce: 'Please enter a username/password'});    // If failed return an error.
-  }
-
-  Periodic()  {                                                    // This is periodicly run.
-      
+        this.setState({apiResponce: 'Please enter a username/password'});    // If failed return an error.
   }
   
   render() {
-    if(this.state.APIResponce == "true")  {
+    /*
+    if(this.state.apiResponce == "true")  {
       return <Navigate to='/hub/home' />
-    }
+    }*/
 
     return (
       <>
       <div class="login-box">
       <br/> <h1 type="title">Login</h1> <br/>
-      <form acceptCharset="UTF-8" onSubmit={this.Periodic}>
+      <form acceptCharset="UTF-8">
         <img src="/images/user.png" width={100} height={100} />
         <input
           type="username"
@@ -77,6 +89,7 @@ class App extends React.Component {
           <button id="button1" onClick={this.Authenticate}>Login</button>
           <button id="button1" onClick={this.Register}>Register</button>
         </div>
+        <p>{this.state.apiResponce}</p>
         </form>
       </div>
       </>
