@@ -4,4 +4,3 @@ List of things to do:
 * rate limit POST requests
 * add landing page to hub/home
 * add cookies for login data
-* check for invalid chars in login/registration
