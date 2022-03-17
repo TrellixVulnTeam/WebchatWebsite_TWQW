@@ -3,10 +3,4 @@ List of things to do:
 * rate limit POST requests
 * add landing page to hub/home
 * add cookies for login data
-
-
-* add data encryption to database
-
-    - Added encryption lib
-    - all functions updated
-    - fix registration hash showing only date of registration( dbToEncrypt )
+* encrypt backend api responces

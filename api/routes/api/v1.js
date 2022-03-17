@@ -1,16 +1,11 @@
-let app = require("express")();
-let cryptoJS = require('crypto-js');
-let bodyParser = require('body-parser');
+const app = require("express")();
+const cryptoJS = require('crypto-js');
+const bodyParser = require('body-parser');
 const { enc } = require("crypto-js");
-const { json } = require("express");
 const sqlite3 = require('sqlite3').verbose();
 
 let dateObj = new Date();
-let month = String(dateObj.getMonth() + 1).padStart(2, '0');
-let day = String(dateObj.getDate()).padStart(2, '0');
-let year = dateObj.getFullYear();
-let currentDate = day + '-' + month + '-' + year;
-
+let currentDate = String(dateObj.getDate()).padStart(2, '0') + '-' + String(dateObj.getMonth() + 1).padStart(2, '0') + '-' + dateObj.getFullYear();
 
 let db = new sqlite3.Database('../database/webchat.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -22,9 +17,6 @@ let db = new sqlite3.Database('../database/webchat.db', sqlite3.OPEN_READWRITE, 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-// See TODO for more info on changes
 app.post('/login', (req, res) => {
 
     db.serialize(() => {
@@ -35,20 +27,18 @@ app.post('/login', (req, res) => {
                 returnValue = false;
             }
             else {
-                var toHash = req.body.username + dateObj.getUTCMonth() + ' ' + dateObj.getUTCDate() + ' ' + dateObj.getUTCFullYear() + ' ' + dateObj.getUTCMinutes() + ' ' + dateObj.getUTCSeconds;
-                let reqHash                     = cryptoJS.SHA256(toHash);
-                var passwordBytes               = cryptoJS.AES.decrypt(req.body.password, reqHash.toString());
-                var passwordDecrypted           = passwordBytes.toString(cryptoJS.enc.Utf8);
-                let dbHash                      = cryptoJS.SHA256(req.body.username);
+                let curDate = new Date();
+                var reqHash = req.body.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+                let reqDecrypted = cryptoJS.AES.decrypt(req.body.password, cryptoJS.SHA256(reqHash).toString()).toString(cryptoJS.enc.Utf8);
+                let dbHash = cryptoJS.SHA256(req.body.username);
                 rows.forEach((row) => {
                     let dbDecrypted = cryptoJS.AES.decrypt(row._password, dbHash.toString()).toString(enc.Utf8);
-
-                    if (row._username == req.body.username)
-                    {
-                        console.log('dbDecrypted: ' + dbDecrypted);
-                        console.log('reqDecrypted: ' + passwordDecrypted);
-                        if(dbDecrypted.includes(passwordDecrypted))
-                        returnValue = true;
+                    dbDecrypted = dbDecrypted.substring(0, dbDecrypted.length - 10);
+                    if (row._username == req.body.username && dbDecrypted === reqDecrypted) {
+                        if (req.body.username.match(/^[0-9a-zA-Z]+$/) && reqDecrypted.match(/^[0-9a-zA-Z]+$/))
+                            returnValue = true;
+                        else
+                            returnValue = false;
                     }
                 });
             }
@@ -72,13 +62,12 @@ app.post('/register', (req, res) => {
                         returnValue = false;
                 });
                 if (returnValue) {
-                    var toHash = req.body.username + dateObj.getUTCMonth() + ' ' + dateObj.getUTCDate() + ' ' + dateObj.getUTCFullYear() + ' ' + dateObj.getUTCMinutes() + ' ' + dateObj.getUTCSeconds;
-                    let reqHash                 = cryptoJS.SHA256(toHash);
-                    let passwordDecrypted       = cryptoJS.AES.decrypt(req.body.password, reqHash.toString()).toString(cryptoJS.enc.Utf8);
-                    let dbHash                  = cryptoJS.SHA256(req.body.username);
-                    var dbToEncrypt             = passwordDecrypted + currentDate;
-                    console.log('dbToEncrypt: ' + dbToEncrypt);
-                    let dbEncryptedPassword     = cryptoJS.AES.encrypt(dbToEncrypt, dbHash.toString());
+                    let curDate = new Date();
+                    var reqHash = req.body.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+                    let passwordDecrypted = cryptoJS.AES.decrypt(req.body.password, cryptoJS.SHA256(reqHash).toString()).toString(cryptoJS.enc.Utf8);
+                    let dbHash = cryptoJS.SHA256(req.body.username);
+                    var dbToEncrypt = passwordDecrypted + currentDate;
+                    let dbEncryptedPassword = cryptoJS.AES.encrypt(dbToEncrypt, dbHash.toString());
 
                     db.each('INSERT INTO user(username, password, regDate) VALUES (?, ?, ?);', [req.body.username, dbEncryptedPassword, currentDate], (err, row) => {
                         if (err) {
@@ -92,25 +81,6 @@ app.post('/register', (req, res) => {
             res.json({ success: returnValue ? 'true' : 'false' });
         });
     });
-});
-
-app.post('/beta', (req, res) =>  {
-    /*
-    var regDate1 = "3-16-2022";
-    var exampleText = "test123";
-    var hash                    = cryptoJS.SHA256(req.body.username);
-    var encrypted = cryptoJS.AES.encrypt((exampleText + regDate1), hash.toString());
-    var unencrypted = cryptoJS.AES.decrypt(encrypted, hash.toString()).toString(enc.Utf8);
-    res.json({enc: encrypted.toString(), dec: unencrypted.toString()});
-    */
-    res.json({message: 'return message'});
-    
-    /*
-    var curTimestamp            = dateObj.getUTCMonth() + ' ' + dateObj.getUTCDate() + ' ' + dateObj.getUTCFullYear() + ' ' + dateObj.getUTCMinutes() + ' ' + dateObj.getUTCSeconds;
-    var hash                    = cryptoJS.SHA256(req.body.username + curTimestamp);
-    var passwordBytes           = cryptoJS.AES.decrypt(req.body.password, hash.toString());
-    var passwordDecrypted       = passwordBytes.toString(cryptoJS.enc.Utf8);
-    res.json({dcPassword: passwordDecrypted});*/
 });
 
 module.exports = app;
