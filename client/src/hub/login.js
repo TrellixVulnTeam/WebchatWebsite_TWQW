@@ -1,6 +1,9 @@
 import React from 'react';
 import "../core/styles/login.css"
 import { BrowserRouter, Routes, Route, link, Navigate, Link } from 'react-router-dom';
+let cryptoJS = require('crypto-js');
+let dateObj = new Date();
+
 
 
 class App extends React.Component {
@@ -13,7 +16,30 @@ class App extends React.Component {
     };
     this.Authenticate = this.Authenticate.bind(this);                       // So we are able to call this from render()'s html.
     this.Register = this.Register.bind(this);
+    this.Beta = this.Beta.bind(this);
   }
+
+
+  async Beta(event) {
+    event.preventDefault();
+    var toHash = this.state.username + dateObj.getUTCMonth() + ' ' + dateObj.getUTCDate() + ' ' + dateObj.getUTCFullYear() + ' ' + dateObj.getUTCMinutes() + ' ' + dateObj.getUTCSeconds;
+    var hash = cryptoJS.SHA256(toHash);
+    let dataPOST = {
+      username: this.state.username,
+      password: cryptoJS.AES.encrypt(this.state.password, hash.toString()).toString()
+    };
+
+    await fetch('http://localhost:3000/api/v1/login', {
+      method: 'POST',
+      body: JSON.stringify(dataPOST),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then((res) => res.json())
+    .then((data) => this.setState({ apiResponce: data.dcPassword }))
+    .catch((error) => this.setState({ apiResponce: 'Failed to recive responce.' }));
+
+  }
+
 
   async Register(event) {                                                       // Todo: add a register function to the API
     event.preventDefault();
@@ -26,13 +52,13 @@ class App extends React.Component {
         password: this.state.password
       };
       if (this.state.username && this.state.password) {
-        const response = await fetch('http://localhost:3000/api/v1/register', {
+        await fetch('http://localhost:3000/api/v1/register', {
           method: 'POST',
           body: JSON.stringify(dataPOST),
           headers: { 'Content-Type': 'application/json' }
         })
           .then((res) => res.json())                                           // Parse responce as JSON.
-          .then((data) => this.setState({ apiResponce: data.success }))          // Set apiResponce to data.TYPE <-- responce of the api/v1/login function.
+          .then((data) => this.setState({ apiResponce: data.success }))          // Set apiResponce to data.TYPE <-- responce of the api/v1/register function.
           .catch((error) => this.setState({ apiResponce: 'Failed to recive responce.' }));  // If failed return an error.
       }
       else
@@ -50,7 +76,7 @@ class App extends React.Component {
         password: this.state.password
       };
       if (this.state.username != '' && this.state.password != 0) {
-        const response = await fetch('http://localhost:3000/api/v1/login', {
+        await fetch('http://localhost:3000/api/v1/login', {
           method: 'POST',
           body: JSON.stringify(dataPOST),
           headers: { 'Content-Type': 'application/json' }
@@ -97,6 +123,7 @@ class App extends React.Component {
             <div>
               <button id="button1" onClick={this.Authenticate}>Login</button>
               <button id="button1" onClick={this.Register}>Register</button>
+              <button onClick={this.Beta}>Beta</button>
             </div>
             <p>{this.state.apiResponce}</p>
           </form>
