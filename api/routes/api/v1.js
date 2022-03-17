@@ -1,12 +1,11 @@
-let app = require("express")();
-let bodyParser = require('body-parser');
+const app = require("express")();
+const cryptoJS = require('crypto-js');
+const bodyParser = require('body-parser');
+const { enc } = require("crypto-js");
 const sqlite3 = require('sqlite3').verbose();
 
 let dateObj = new Date();
-let month = String(dateObj.getMonth() + 1).padStart(2, '0');
-let day = String(dateObj.getDate()).padStart(2, '0');
-let year = dateObj.getFullYear();
-let currentDate = day + '-' + month + '-' + year;
+let currentDate = String(dateObj.getDate()).padStart(2, '0') + '-' + String(dateObj.getMonth() + 1).padStart(2, '0') + '-' + dateObj.getFullYear();
 
 let db = new sqlite3.Database('../database/webchat.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -28,9 +27,19 @@ app.post('/login', (req, res) => {
                 returnValue = false;
             }
             else {
+                let curDate = new Date();
+                var reqHash = req.body.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+                let reqDecrypted = cryptoJS.AES.decrypt(req.body.password, cryptoJS.SHA256(reqHash).toString()).toString(cryptoJS.enc.Utf8);
+                let dbHash = cryptoJS.SHA256(req.body.username);
                 rows.forEach((row) => {
-                    if (row._username == req.body.username && row._password == req.body.password)
-                        returnValue = true;
+                    let dbDecrypted = cryptoJS.AES.decrypt(row._password, dbHash.toString()).toString(enc.Utf8);
+                    dbDecrypted = dbDecrypted.substring(0, dbDecrypted.length - 10);
+                    if (row._username == req.body.username && dbDecrypted === reqDecrypted) {
+                        if (req.body.username.match(/^[0-9a-zA-Z]+$/) && reqDecrypted.match(/^[0-9a-zA-Z]+$/))
+                            returnValue = true;
+                        else
+                            returnValue = false;
+                    }
                 });
             }
             res.json({ success: returnValue ? 'true' : 'false' });
@@ -53,7 +62,14 @@ app.post('/register', (req, res) => {
                         returnValue = false;
                 });
                 if (returnValue) {
-                    db.each('INSERT INTO user(username, password, regDate) VALUES (?, ?, ?);', [req.body.username, req.body.password, currentDate], (err, row) => {
+                    let curDate = new Date();
+                    var reqHash = req.body.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+                    let passwordDecrypted = cryptoJS.AES.decrypt(req.body.password, cryptoJS.SHA256(reqHash).toString()).toString(cryptoJS.enc.Utf8);
+                    let dbHash = cryptoJS.SHA256(req.body.username);
+                    var dbToEncrypt = passwordDecrypted + currentDate;
+                    let dbEncryptedPassword = cryptoJS.AES.encrypt(dbToEncrypt, dbHash.toString());
+
+                    db.each('INSERT INTO user(username, password, regDate) VALUES (?, ?, ?);', [req.body.username, dbEncryptedPassword, currentDate], (err, row) => {
                         if (err) {
                             console.log(err);
                             returnValue = false;

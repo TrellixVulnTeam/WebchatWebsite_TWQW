@@ -1,7 +1,7 @@
 import React from 'react';
 import "../core/styles/login.css"
-import { BrowserRouter, Routes, Route, link, Navigate, Link } from 'react-router-dom';
-
+import { Navigate } from 'react-router-dom';
+const cryptoJS = require('crypto-js');
 
 class App extends React.Component {
   constructor(props) {                                                     // Init our constructor and variables.
@@ -21,18 +21,21 @@ class App extends React.Component {
       this.setState({ apiResponce: 'Please use alphanumeric chars' });
     }
     else {
+      let curDate = new Date();
+      var toHash = this.state.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+      var hash = cryptoJS.SHA256(toHash);
       let dataPOST = {
         username: this.state.username,
-        password: this.state.password
+        password: cryptoJS.AES.encrypt(this.state.password, hash.toString()).toString()
       };
       if (this.state.username && this.state.password) {
-        const response = await fetch('http://localhost:3000/api/v1/register', {
+        await fetch('http://localhost:3000/api/v1/register', {
           method: 'POST',
           body: JSON.stringify(dataPOST),
           headers: { 'Content-Type': 'application/json' }
         })
           .then((res) => res.json())                                           // Parse responce as JSON.
-          .then((data) => this.setState({ apiResponce: data.success }))          // Set apiResponce to data.TYPE <-- responce of the api/v1/login function.
+          .then((data) => this.setState({ apiResponce: data.success }))          // Set apiResponce to data.TYPE <-- responce of the api/v1/register function.
           .catch((error) => this.setState({ apiResponce: 'Failed to recive responce.' }));  // If failed return an error.
       }
       else
@@ -45,12 +48,15 @@ class App extends React.Component {
       this.setState({ apiResponce: 'Please use alphanumeric chars' });
     }
     else {
+      let curDate = new Date();
+      var toHash = this.state.username + '/' + curDate.getUTCMonth() + '/' + curDate.getUTCDate() + '/' + curDate.getUTCFullYear() + '/' + curDate.getUTCMinutes() + '/' + curDate.getUTCSeconds();
+      var hash = cryptoJS.SHA256(toHash);
       let dataPOST = {
         username: this.state.username,
-        password: this.state.password
+        password: cryptoJS.AES.encrypt(this.state.password, hash.toString()).toString()
       };
-      if (this.state.username != '' && this.state.password != 0) {
-        const response = await fetch('http://localhost:3000/api/v1/login', {
+      if (this.state.username && this.state.password) {
+        await fetch('http://localhost:3000/api/v1/login', {
           method: 'POST',
           body: JSON.stringify(dataPOST),
           headers: { 'Content-Type': 'application/json' }
@@ -65,14 +71,14 @@ class App extends React.Component {
   }
 
   render() {
-    /*
+    
     if(this.state.apiResponce == "true")  {
-      return <Navigate to='/hub/home' />
-    }*/
+      //return <Navigate to='/hub/home' />
+    }
 
     return (
       <>
-        <div class="login-box">
+        <div className="login-box">
           <br /> <h1 type="title">Login</h1> <br />
           <form acceptCharset="UTF-8">
             <img src="/images/user.png" width={100} height={100} />

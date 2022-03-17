@@ -5,5 +5,3 @@ CREATE TABLE user (
     regDate date CURRENT_DATE,
     userGroup varchar(255) NOT NULL DEFAULT 'user'
 )
-
-INSERT INTO user(username, password, regDate) VALUES ('notSam25', 'test123', '3-15-2022');
