@@ -9,7 +9,7 @@ const routs = (
     <Routes>
       <Route exact path="/" element={<Navigate to='/hub/login' />} />
       <Route exact path="/hub/login" element={<App />} />
-      <Route exact path="hub/home" element={<Home />} />
+      <Route exact path="/hub/home" element={<Home />} />
     </Routes>
   </BrowserRouter>
 );
