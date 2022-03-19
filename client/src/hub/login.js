@@ -95,11 +95,11 @@ class App extends React.Component {
               <span class="content-name">Password</span>
             </label>
           </div>
-          
+
           <br/> 
           <button onClick={this.Authenticate}>Login</button>
           <br id="sm-spacing"/>
-          <button  onClick={this.Authenticate}>Register</button>
+          <button  onClick={this.Register}>Register</button>
           <br/> <br/> <br/>
           <p>{this.state.apiResponce}</p>
         </div>
