@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './hub/login';
 import Home from './hub/home'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
+import './styles/style.css'
 const routs = (
   <BrowserRouter>
     <Routes>

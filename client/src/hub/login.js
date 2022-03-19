@@ -1,6 +1,5 @@
 import React from 'react';
-import "../core/styles/login.css"
-import { Navigate } from 'react-router-dom';
+//import { Navigate } from 'react-router-dom';
 const cryptoJS = require('crypto-js');
 
 class App extends React.Component {
@@ -71,41 +70,38 @@ class App extends React.Component {
   }
 
   render() {
-    
-    if(this.state.apiResponce == "true")  {
-      //return <Navigate to='/hub/home' />
+
+    if (this.state.apiResponce === "true") {
+      
     }
 
     return (
       <>
         <div className="login-box">
-          <br /> <h1 type="title">Login</h1> <br />
-          <form acceptCharset="UTF-8">
-            <img src="/images/user.png" width={100} height={100} />
-            <input
-              type="username"
-              placeholder="Username"
-              maxLength="24"
-              name="username"
-              value={this.state.username}
-              onChange={(e) => this.setState({ username: e.target.value })}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              maxLength="24"
-              name="password"
-              value={this.state.password}
-              onChange={(e) => this.setState({ password: e.target.value })}
-              required
-            />
-            <div>
-              <button id="button1" onClick={this.Authenticate}>Login</button>
-              <button id="button1" onClick={this.Register}>Register</button>
-            </div>
-            <p>{this.state.apiResponce}</p>
-          </form>
+          <br />
+          <div className='left'></div>
+          <table><tr><p type="title">Webchat</p><td><img src="/images/speech-bubble.png" width={40} height={40} /></td></tr></table>
+          <br/> 
+          <div class="form">
+            <input required autoComplete='off' type='text' name='username' value={this.state.username} onChange={(e) => this.setState({ username: e.target.value })} maxLength="24" />
+            <label for="username" class="label-name">
+              <span class="content-name">Username</span>
+            </label>
+          </div>
+
+          <div class="form">
+            <input required autoComplete='off' type='password' name='password' value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} maxLength="24" />
+            <label for="password" class="label-name">
+              <span class="content-name">Password</span>
+            </label>
+          </div>
+          
+          <br/> 
+          <button onClick={this.Authenticate}>Login</button>
+          <br id="sm-spacing"/>
+          <button  onClick={this.Authenticate}>Register</button>
+          <br/> <br/> <br/>
+          <p>{this.state.apiResponce}</p>
         </div>
       </>
     );
