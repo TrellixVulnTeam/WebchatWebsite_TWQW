@@ -5,7 +5,6 @@
   The purpose for this project was to teach myself more about web develpment by challenging my self to make a encrypted webchatting website.
   
 ## Building
-  It is very simple to build this project.
   ```
   npm install sqlite3          -API
   npm install cors             -API
