@@ -22,6 +22,4 @@
   ```
   
 ## Media
-<img src="https://cdn.discordapp.com/attachments/764959698888687616/954541624006934598/Webchat_preview.gif" width=50% height=50% />
-<img src="https://cdn.discordapp.com/attachments/764959698888687616/954541930467967026/unknown.png" width=50% height=50% />
-<img src="https://cdn.discordapp.com/attachments/764959698888687616/954542063146385498/unknown.png" width=50% height=50% />
+<img src="https://im2.ezgif.com/tmp/ezgif-2-8cc78e6901.webp" width=50% height=50% />
