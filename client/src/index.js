@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './hub/login';
-import Home from './hub/home'
+import Home from './hub/home';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/style.css'
+import './styles/items.css'
 const routs = (
   <BrowserRouter>
     <Routes>
