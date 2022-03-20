@@ -1,0 +1,31 @@
+.sidebar    {
+    height:98%;
+    width: 50px;
+    position:fixed !important;
+    z-index:1;
+    overflow:none;
+    background-color: #323c48;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    text-align: left !important;
+    align-items: left !important;
+    color: #768bac00;
+    font-family: Montserrat, "Open Sans", Helvetica, Arial, sans-serif;
+  font-weight: 100;
+}
+
+.sidebar img {
+    
+    pointer-events: none;
+    margin-left: 10px;
+    margin-top: 20px;
+    width: 30px;
+    height: 30px;
+}
+
+.sidebar p{
+    white-space:nowrap;
+    margin-top: 23px;
+    margin-left: 50px;
+    pointer-events: none;
+}

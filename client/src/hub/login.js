@@ -1,4 +1,5 @@
 import React from 'react';
+import { Navigate } from 'react-router';
 //import { Navigate } from 'react-router-dom';
 const cryptoJS = require('crypto-js');
 
@@ -72,15 +73,17 @@ class App extends React.Component {
   render() {
 
     if (this.state.apiResponce === "true") {
-      
+      return <Navigate to="/hub/home"/>
     }
 
     return (
       <>
+      <title>WebChat - Login</title>
+      
         <div className="login-box">
           <br />
           <div className='left'></div>
-          <table><tr><p type="title">Webchat</p><td><img src="/images/speech-bubble.png" width={40} height={40} /></td></tr></table>
+          <table><tr><p>Webchat </p><td><img src="/images/speech-bubble.png" width={40} height={40} /></td></tr></table>
           <br/> 
           <div class="form">
             <input required autoComplete='off' type='text' name='username' value={this.state.username} onChange={(e) => this.setState({ username: e.target.value })} maxLength="24" />
