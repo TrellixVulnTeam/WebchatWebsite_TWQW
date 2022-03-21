@@ -1,7 +1,26 @@
+// This table will hold all user data. 
+
 CREATE TABLE user (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     username varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     regDate date CURRENT_DATE,
     userGroup varchar(255) NOT NULL DEFAULT 'user'
+)
+
+// This table will store all of the conversations data.
+
+CREATE TABLE conversationData (
+    participantIDs INTEGER,
+    conversationID INTEGER,
+    conversationAdminIDs INTEGER
+)
+
+// This table holds the conversation data.
+// This will be auto created when a user tries to message someone or a group.
+
+CREATE TABLE message#### (
+    senderID INTEGER,
+    dateSent CURRENT_DATE,
+    message varchar(255) NOT NULL
 )
