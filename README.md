@@ -1,5 +1,5 @@
 # WebchatWebsite
-  This is a repository for a webchat website POC.
+  This is a repository for a webchat website POC. THIS PROJECT WILL BE UPDATED WHEN I HAVE TIME!
   
 ## About
   The purpose for this project was to teach myself more about web develpment by challenging my self to make a encrypted webchatting website.
@@ -22,5 +22,4 @@
   ```
   
 ## Media
-<img src="https://im2.ezgif.com/tmp/ezgif-2-8cc78e6901.webp" width=50% height=50% />
 <img src="https://cdn.discordapp.com/attachments/764959698888687616/954542063146385498/unknown.png" width=50% height=50%/>
