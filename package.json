@@ -1,0 +1,19 @@
+{
+  "name": "webchatwebsite",
+  "version": "1.0.0",
+  "description": "This is a repository for a webchat website POC. THIS PROJECT WILL BE UPDATED WHEN I HAVE TIME!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notSam25/WebchatWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notSam25/WebchatWebsite/issues"
+  },
+  "homepage": "https://github.com/notSam25/WebchatWebsite#readme"
+}
