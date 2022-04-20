@@ -7,7 +7,7 @@ const sqlite3 = require('sqlite3').verbose();
 let dateObj = new Date();
 let currentDate = String(dateObj.getDate()).padStart(2, '0') + '-' + String(dateObj.getMonth() + 1).padStart(2, '0') + '-' + dateObj.getFullYear();
 
-let db = new sqlite3.Database('../database/webchat.db', sqlite3.OPEN_READWRITE, (err) => {
+let db = new sqlite3.Database('../database/WebChat.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
         return console.log("SQLite3 has encountered a connection error: " + err.message);
     }
