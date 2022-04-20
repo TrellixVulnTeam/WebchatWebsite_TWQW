@@ -14,7 +14,7 @@
   
 ## Usage
   This project is ready to go once you ```npm start```.
-  Open [http://localhost:8070](http://localhost:8070) to view the website in your browser.
+  Open [http://localhost:8070](http://localhost:8080) to view the website in your browser.
   The datatable contains a default user, the login credentials are:
   ```
   username: user
