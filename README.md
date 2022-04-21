@@ -19,6 +19,7 @@
   ```
   username: user
   password: pass123
+  * If logging in with the default does not work, drop the table and recreate it with the DBINFO.txt file.
   ```
   
 ## Media
